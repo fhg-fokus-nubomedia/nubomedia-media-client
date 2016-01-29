@@ -1,7 +1,7 @@
 # Kurento Client Extended Library
 
 
-**This project is part of the NUBOMEDIA project (www.nubomedia.eu).**
+This project is part of the [NUBOMEDIA](http://www.nubomedia.eu/) research initiative.
 
 This repository includes the open source implementation of the “org.kurento.client.internal.KmsProvider” interface. 
 This KMSProvider connects to the  Virtual Network Function Manager (VNFM) on the NUBOMEDIA cloud repository which is responsible for managing the lifecycle of the media components (KMS) to obtain the KMS URL dynamically.
@@ -49,6 +49,27 @@ The class “de.fhg.fokus.nubomedia.kmc.KmsUrlProvider” from the library will 
 * ```void releaseKms(String id); ```
 The method ```reserveKms()``` will be invoked and its value returned. If ```NotEnoughResourcesException``` exception is thrown, it will be thrown in ```KurentoClient.create()``` method.
 
-### Licence
+Issue tracker
+-------------
 
-See the LICENSE file for license rights and limitations (LGPL v2.1).
+Issues and bug reports should be posted to the [GitHub Issue List](https://github.com/fhg-fokus-nubomedia/kurento-client-extended/issues)
+
+Licensing and distribution
+--------------------------
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Support
+-------
+
+Need some support, then get in contact with us!
