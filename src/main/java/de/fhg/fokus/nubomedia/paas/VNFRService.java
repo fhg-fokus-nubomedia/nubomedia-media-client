@@ -38,5 +38,11 @@ public interface VNFRService {
 	 * @param internalAppId - identifier of the registered application on the VNFR
 	 */
 	public void unregisterApplication(String internalAppId);
+	
+	/**
+	 * Sends a heatbeat to the elastic media manager as a keep alive mechanism for registered sessions
+	 * @param internalAppId
+	 */
+	public void sendHeartBeat(String internalAppId);
 
 }

@@ -38,11 +38,6 @@ public class VNFRServiceImpl implements VNFRService{
 		restTemplate = new RestTemplate();
 	}
 	
-//	@PostConstruct
-//	private void init(){
-//		this.serviceProfile = VNFRServiceProfile.getInstance();
-//		restTemplate = new RestTemplate();
-//	}
 
 	/**
 	 * Registers a new App to the VNFR with a specific VNFR ID
@@ -113,5 +108,17 @@ public class VNFRServiceImpl implements VNFRService{
 	public List<ApplicationRecord> getListRegisteredApplications(String vnfrId) {
 		ApplicationRecord[] list = restTemplate.getForObject(serviceProfile.getServiceApiUrl(), ApplicationRecord[].class);
 		   return Arrays.asList(list);
+	}
+
+
+	@Override
+	public void sendHeartBeat(String internalAppId) {
+		// PUT on /vnfr/<vnfr_id>/app/<app_id>/heartbeat
+		String webServiceUrl = serviceProfile.getServiceApiUrl()+"/"+internalAppId+"/heartbeat";
+		logger.info("sending heartbeat "+ webServiceUrl);
+		
+		ResponseEntity<Void> response = restTemplate.exchange(webServiceUrl, HttpMethod.PUT,
+                null, Void.class);
+		Void body = response.getBody();
 	}
 }

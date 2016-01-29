@@ -1,5 +1,8 @@
 package de.fhg.fokus.nubomedia.kmc;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.kurento.client.internal.KmsProvider;
 import org.kurento.client.internal.NotEnoughResourcesException;
 import org.slf4j.Logger;
@@ -22,11 +25,14 @@ public class KmsUrlProvider implements KmsProvider {
 
 	private VNFRService vnfrService;
 	private ApplicationRecord record; 
+	private TimerTask timerTask;
+	private Timer timer = new Timer(true);
+	private int timerDelay = 300000; //delays 5 mins after the application is registered before sending the first heartbeat
+	private int timerPeriod = 300000; //periodic every 5 minutes
 
 	public KmsUrlProvider(){
 		vnfrService = new VNFRServiceImpl();
 	}
-
 
 	public void releaseKms(String applicationId) throws NotEnoughResourcesException {
 		try {
@@ -34,35 +40,25 @@ public class KmsUrlProvider implements KmsProvider {
 			if(record == null)
 				return;
 			vnfrService.unregisterApplication(record.getInternalAppId());
+			timerTask.cancel();
 		} catch (Exception e) {
 			throw new NotEnoughResourcesException("An error occured in releasing the KMS - "+e.getMessage());
 		}
-
 	}
 
 	public String reserveKms(String applicationId) throws NotEnoughResourcesException {
-		try {
-			record = vnfrService.registerApplication(applicationId, 50); 
-			//TODO check with Michael if the points could be null
-			if(record == null)
-				throw new NotEnoughResourcesException("An error occured in reserving the KMS - No record set. Make sure the configuration to the VNFM interface is configured");
-			else
-			{ 
-				logger.info(record.toString());
-			//	    	return "ws://192.168.149.172:8888/kurento";
-				return "ws://"+record.getIP()+":8888/kurento";
-			}
-		} catch (Exception e) {
-			throw new NotEnoughResourcesException("An error occured in reserving the KMS - "+e.getMessage());
-		}		
+		return reserveKms(applicationId, 50);		
 	}
 
 	public String reserveKms(String applicationId, int loadPoints) throws NotEnoughResourcesException {
 		try {
 			record = vnfrService.registerApplication(applicationId, loadPoints);
 			if(record == null)
-				throw new NotEnoughResourcesException("Internal Server Error");
+				throw new NotEnoughResourcesException("An error occured in reserving the KMS - No record set. Make sure the configuration to the VNFM interface is configured");
 			logger.info(record.toString());
+			
+			timerTask = new HeartBeatTimerTask(vnfrService, applicationId);
+			timer.schedule(timerTask, timerDelay, timerPeriod);
 			return "ws://"+record.getIP()+":8888/kurento";
 		} catch (Exception e) {
 			throw new NotEnoughResourcesException("An error occured in reserving the KMS - "+e.getMessage());

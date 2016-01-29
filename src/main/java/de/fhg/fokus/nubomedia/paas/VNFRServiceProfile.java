@@ -37,7 +37,7 @@ public class VNFRServiceProfile {
 			instance  = null;
 		else{
 			this.serviceBaseUrl = "http://"+serverAddress+":"+serverPort+"/vnfr";
-			this.serviceApiUrl = "http://"+serverAddress+":"+serverPort+"/vnfr"+"/"+vnfrId+"/app";
+			this.serviceApiUrl = serviceBaseUrl+"/"+vnfrId+"/app";
 			instance = this;
 		}		
 	}
