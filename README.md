@@ -1,4 +1,4 @@
-# Kurento Client Extended Library
+# NUBOMEDIA Media Client
 
 
 This project is part of the [NUBOMEDIA](http://www.nubomedia.eu/) research initiative.
