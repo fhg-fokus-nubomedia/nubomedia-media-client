@@ -29,8 +29,8 @@ public class VNFRServiceProfile {
 		+ System.getenv("VNFR_ID"));
 		
 		//max = (a > b) ? a : b;
-		serverAddress = (System.getenv("VNFM_IP") != null)? System.getenv("VNFM_IP"): "80.96.122.80";
-		serverPort = Integer.parseInt((System.getenv("VNFM_PORT")!=null)?  System.getenv("VNFM_PORT"): "9000");
+		serverAddress = System.getenv("VNFM_IP");
+		serverPort = Integer.parseInt(System.getenv("VNFM_PORT"));
 		vnfrId = System.getenv("VNFR_ID");
 		
 		if(vnfrId == null)

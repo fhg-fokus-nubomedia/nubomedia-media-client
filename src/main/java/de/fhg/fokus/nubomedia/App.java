@@ -29,18 +29,18 @@ public class App implements CommandLineRunner {
     
     @Override
     public void run(String... strings) throws Exception {
-    	registerApplication();
-    	//getEnvironmentVariabes();
+    	//registerApplication();
+    	getEnvironmentVariabes();
     }
     
     private void getEnvironmentVariabes() {
     	
-    	String serverAddress = (System.getenv("VNFM_IP") != null)? System.getenv("VNFM_IP"): "80.96.122.80";
-    	int serverPort = Integer.parseInt((System.getenv("VNFM_PORT")!=null)?  System.getenv("VNFM_PORT"): "800");
-		String vnfrId = (System.getenv("VNFR_ID")!=null)? System.getenv("VNFR_ID"): "a7a7638b-5963-40f2-b9a2-2fc6e8c0dbc7";
+    	String serverAddress = System.getenv("VNFM_IP");
+    	int serverPort = Integer.parseInt(System.getenv("VNFM_PORT"));
+		String vnfrId = System.getenv("VNFR_ID");
 		
     	log.info("Instatiating the VNFR service profile with ff System Properties;\n VNFM_IP: "
-    			+ serverAddress+"\nVNFM_PORT: "
+    			+ serverAddress+"\nVNFM_PORT ....: "
     			+ serverPort+"\n"
     			+ vnfrId);
 		
@@ -75,7 +75,7 @@ public class App implements CommandLineRunner {
     	VNFRService vnfrService = new VNFRServiceImpl();
     	
     	
-    	ApplicationRecord record = vnfrService.registerApplication("abcdefghijklmnop", 50);
+    	ApplicationRecord record = vnfrService.registerApplication("a", 50);
     	if(record == null){
     		log.info("was unable to obtain a record"); 
     		return;

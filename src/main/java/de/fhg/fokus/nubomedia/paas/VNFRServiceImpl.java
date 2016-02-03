@@ -115,7 +115,7 @@ public class VNFRServiceImpl implements VNFRService{
 	public void sendHeartBeat(String internalAppId) {
 		// PUT on /vnfr/<vnfr_id>/app/<app_id>/heartbeat
 		String webServiceUrl = serviceProfile.getServiceApiUrl()+"/"+internalAppId+"/heartbeat";
-		logger.info("sending heartbeat "+ webServiceUrl);
+		logger.info("sending heartbeat to EMM"+ webServiceUrl);
 		
 		ResponseEntity<Void> response = restTemplate.exchange(webServiceUrl, HttpMethod.PUT,
                 null, Void.class);
