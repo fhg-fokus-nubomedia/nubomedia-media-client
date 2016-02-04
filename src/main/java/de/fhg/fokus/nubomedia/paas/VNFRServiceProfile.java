@@ -23,12 +23,11 @@ public class VNFRServiceProfile {
 
 	public VNFRServiceProfile() {
 		super();
-		logger.info("Instatiating the VNFR service profile with ff System Properties;\n VNFM_IP: "
+		logger.info("Instantiating the VNFR service profile with ff System Properties;\n VNFM_IP: "
 		+ System.getenv("VNFM_IP")+"\nVNFM_PORT: "
 		+ System.getenv("VNFM_PORT")+"\n"
 		+ System.getenv("VNFR_ID"));
-		
-		//max = (a > b) ? a : b;
+				
 		serverAddress = System.getenv("VNFM_IP");
 		serverPort = Integer.parseInt(System.getenv("VNFM_PORT"));
 		vnfrId = System.getenv("VNFR_ID");

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,14 @@ public class App implements CommandLineRunner {
 
     public static void main(String args[]) {
         SpringApplication.run(App.class);
+    	
     }
       
     
     @Override
     public void run(String... strings) throws Exception {
-    	//registerApplication();
-    	getEnvironmentVariabes();
+    	registerApplication();
+    	//getEnvironmentVariabes();
     }
     
     private void getEnvironmentVariabes() {
@@ -75,7 +77,7 @@ public class App implements CommandLineRunner {
     	VNFRService vnfrService = new VNFRServiceImpl();
     	
     	
-    	ApplicationRecord record = vnfrService.registerApplication("a", 50);
+    	ApplicationRecord record = vnfrService.registerApplication("myAwesomeApplication", 50);
     	if(record == null){
     		log.info("was unable to obtain a record"); 
     		return;

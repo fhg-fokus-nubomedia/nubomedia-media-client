@@ -27,8 +27,8 @@ public class KmsUrlProvider implements KmsProvider {
 	private ApplicationRecord record; 
 	private TimerTask timerTask;
 	private Timer timer = new Timer(true);
-	private int timerDelay = 300000; //delays 5 mins after the application is registered before sending the first heartbeat
-	private int timerPeriod = 300000; //periodic every 5 minutes
+	private int timerDelay = 15000; //delays 30 secs after the application is registered before sending the first heartbeat
+	private int timerPeriod = 60000; //periodic every 60 secs minutes
 
 	public KmsUrlProvider(){
 		vnfrService = new VNFRServiceImpl();
@@ -57,7 +57,7 @@ public class KmsUrlProvider implements KmsProvider {
 				throw new NotEnoughResourcesException("An error occured in reserving the KMS - No record set. Make sure the configuration to the VNFM interface is configured");
 			logger.info(record.toString());
 			
-			timerTask = new HeartBeatTimerTask(vnfrService, applicationId);
+			timerTask = new HeartBeatTimerTask(vnfrService, record.getInternalAppId());
 			timer.schedule(timerTask, timerDelay, timerPeriod);
 			return "ws://"+record.getIP()+":8888/kurento";
 		} catch (Exception e) {
