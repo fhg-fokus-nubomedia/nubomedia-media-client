@@ -22,15 +22,10 @@ If you are using Maven, here is an example of including the jar file.
 <dependencies>
 ...
 <dependency>
-<groupId>org.kurento</groupId>
-	<artifactId>kurento-client</artifactId>
+	<groupId>de.fhg.fokus.nubomedia</groupId>
+	<artifactId>nubomedia-media-client</artifactId>
+	<version>1.0-SNAPSHOT</version>
 </dependency>
-<dependency>
-		<groupId>de.fhg.fokus.nubomedia</groupId>
-		<artifactId>kurento-client-extended</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</dependency>
-</dependencies>
 ```
 ### Instantiating Kurento Media Client
 Normally, you would instantiate the KMC with the method KurentoClient.create(Properties properties). For example 
