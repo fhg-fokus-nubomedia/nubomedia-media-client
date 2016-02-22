@@ -3,6 +3,7 @@ package de.fhg.fokus.nubomedia.paas;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kurento.client.internal.NotEnoughResourcesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class VNFRServiceImpl implements VNFRService{
 	 * @param loadPoints - capacity
 	 * @param externalAppId - application identifier
 	 */
-	public ApplicationRecord registerApplication(String externalAppId, int points)
+	public ApplicationRecord registerApplication(String externalAppId, int points) throws NotEnoughResourcesException
 	{
 		try 
 		{   
@@ -67,6 +68,7 @@ public class VNFRServiceImpl implements VNFRService{
 			HttpEntity<String> registerEntity = new HttpEntity<String>(body,creationHeader);
 	        ResponseEntity response = restTemplate.exchange(URL, HttpMethod.POST,registerEntity,String.class);
 	        
+	        logger.info("response from VNFM "+response);
 	        HttpStatus status = response.getStatusCode();
 	        if(status.equals(HttpStatus.CREATED)  || status.equals(HttpStatus.OK))
 	        {
@@ -75,13 +77,18 @@ public class VNFRServiceImpl implements VNFRService{
 				
 				logger.info("returned object "+ responseBody.toString());
 				return responseBody;
-	        }else{
-	        	return null;
+	        }
+	        else if(status.equals(HttpStatus.UNPROCESSABLE_ENTITY)){
+	        	
+	        	throw new NotEnoughResourcesException("Not enough resource "+ response.getBody());	        	
 	        }	        		
-		} catch (RestClientException e) {
-			logger.error("Error registering application to VNFR - " + e.getMessage());
-			return null;
+		} catch(NotEnoughResourcesException e){
+			logger.error(e.getMessage());		
 		}
+		catch (RestClientException e) {
+			logger.error("Error registering application to VNFR - " + e.getMessage());			
+		}
+		return null;
 	}
 
 	/**

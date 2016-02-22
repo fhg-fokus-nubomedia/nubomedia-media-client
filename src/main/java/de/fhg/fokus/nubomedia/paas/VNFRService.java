@@ -2,6 +2,8 @@ package de.fhg.fokus.nubomedia.paas;
 
 import java.util.List;
 
+import org.kurento.client.internal.NotEnoughResourcesException;
+
 /**
  * Service provider for the Rest interface to the Elastic Media Manger on the NUBOMEDIA cloud repository
  * @author Alice Cheambe <alice.cheambe[at]fokus.fraunhofer.de>
@@ -29,7 +31,7 @@ public interface VNFRService {
 	 * @param loadPoints - capacity
 	 * @param externalAppId - application identifier
 	 */
-	public ApplicationRecord registerApplication(String externalAppId, int loadPoints);
+	public ApplicationRecord registerApplication(String externalAppId, int loadPoints) throws NotEnoughResourcesException;
 	
 	
 	/**
@@ -37,10 +39,10 @@ public interface VNFRService {
 	 * 
 	 * @param internalAppId - identifier of the registered application on the VNFR
 	 */
-	public void unregisterApplication(String internalAppId);
+	public void unregisterApplication(String internalAppId) throws NotEnoughResourcesException;
 	
 	/**
-	 * Sends a heatbeat to the elastic media manager as a keep alive mechanism for registered sessions
+	 * Sends a heart beat to the elastic media manager as a keep alive mechanism for registered sessions
 	 * @param internalAppId
 	 */
 	public void sendHeartBeat(String internalAppId);

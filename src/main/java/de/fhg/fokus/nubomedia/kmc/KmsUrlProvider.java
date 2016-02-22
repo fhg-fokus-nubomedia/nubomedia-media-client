@@ -64,15 +64,17 @@ public class KmsUrlProvider implements KmsProvider {
 	public String reserveKms(String applicationId, int loadPoints) throws NotEnoughResourcesException {
 		try {
 			record = vnfrService.registerApplication(applicationId, loadPoints);
-			if(record == null)
-				throw new NotEnoughResourcesException("An error occured in reserving the KMS - No record set. Make sure the configuration to the VNFM interface is configured");
-			logger.info(record.toString());
-			
-			timerTask = new HeartBeatTimerTask(vnfrService, record.getInternalAppId());
-			timer.schedule(timerTask, timerDelay, timerPeriod);
-			return "ws://"+record.getIP()+":8888/kurento";
-		} catch (Exception e) {
-			throw new NotEnoughResourcesException("An error occured in reserving the KMS - "+e.getMessage());
-		}		
+			if(record != null)
+			{
+				logger.info(record.toString());
+				timerTask = new HeartBeatTimerTask(vnfrService, record.getInternalAppId());
+				timer.schedule(timerTask, timerDelay, timerPeriod);
+				return "ws://"+record.getIP()+":8888/kurento";
+			}
+			return null;
+		} catch (NotEnoughResourcesException e) {
+			logger.info("An error occured in reserving the KMS - "+e.getMessage());
+		}	
+		return null;
 	}
 }
