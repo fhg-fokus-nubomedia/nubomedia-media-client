@@ -4,7 +4,7 @@
 
 	<groupId>de.fhg.fokus.nubomedia</groupId>
 	<artifactId>nubomedia-media-client</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 	<name>nubomedia-media-client</name>
 	<description>The media client to use on together with Kurento client for depoying applications on the NUBOMEDIA cloud platform</description>
