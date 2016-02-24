@@ -15,7 +15,7 @@ On your test environment you need to create a configuration file on your *HOME* 
 The content of the file should have the provider property set, which looks like this ```kms.url.provider=de.fhg.fokus.nubomedia.kmc.KmsUrlProvider```
 
 
-### How to add KMC+ library 
+### How to add NUBOMEDIA Media client as library 
 If you are using Maven, here is an example of including the jar file.
 	
 ```
