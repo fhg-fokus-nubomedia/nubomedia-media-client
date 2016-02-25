@@ -27,7 +27,7 @@
 		</developer>
 	</developers>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.7</java.version>
 		<maven.javadoc.skip>false</maven.javadoc.skip>
 		<!-- Main class -->
 		<start-class>de.fhg.fokus.nubomedia.App</start-class>	
