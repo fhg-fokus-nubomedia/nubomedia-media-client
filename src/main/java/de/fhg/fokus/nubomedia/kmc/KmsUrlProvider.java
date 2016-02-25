@@ -71,7 +71,8 @@ public class KmsUrlProvider implements KmsProvider {
 				timer.schedule(timerTask, timerDelay, timerPeriod);
 				return "ws://"+record.getIP()+":8888/kurento";
 			}
-			return null;
+			else
+				throw new NotEnoughResourcesException("was unable to register application on VNF");
 		} catch (NotEnoughResourcesException e) {
 			logger.info("An error occured in reserving the KMS - "+e.getMessage());
 		}	
