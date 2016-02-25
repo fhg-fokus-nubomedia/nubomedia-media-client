@@ -8,6 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
+ * @author Alice Cheambe <alice.cheambe[at]fokus.fraunhofer.de>
  *******************************************************************************/
 package de.fhg.fokus.nubomedia.kmc;
 
@@ -25,9 +26,8 @@ import de.fhg.fokus.nubomedia.paas.VNFRService;
 import de.fhg.fokus.nubomedia.paas.VNFRServiceImpl;
 
 /**
- * Provider of URLs from NUBOMEDIA cloud platform for instantiating and managing the life cycle of the Kurento Media Server
- * @author Alice Cheambe <alice.cheambe[at]fokus.fraunhofer.de>
- *
+ * Provider of URLs from NUBOMEDIA cloud platform for instantiating and managing the life cycle of the 
+ * Kurento Media Server
  */
 @Service
 public class KmsUrlProvider implements KmsProvider {
