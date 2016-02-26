@@ -54,6 +54,7 @@ public interface VNFRService {
 	/**
 	 * Sends a heart beat to the elastic media manager as a keep alive mechanism for registered sessions
 	 * @param internalAppId - the internal application identifier
+	 * @param internalAppId
 	 */
 	public void sendHeartBeat(String internalAppId);
 

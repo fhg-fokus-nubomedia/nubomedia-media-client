@@ -115,6 +115,7 @@ public class VNFRServiceImpl implements VNFRService{
 		Void body = response.getBody();
 	}
 
+
 	/**
 	 * Returns the list of applications (virtual network function records) registered on the VNF
 	 * @return list of application
@@ -123,6 +124,7 @@ public class VNFRServiceImpl implements VNFRService{
 		VirtualNetworkFunctionRecord[] list = restTemplate.getForObject(serviceProfile.getServiceBaseUrl(), VirtualNetworkFunctionRecord[].class);
 	   return Arrays.asList(list);		
 	}
+
 
 	/**
 	 * Returns the list of registered application to the given virtual record identifier
