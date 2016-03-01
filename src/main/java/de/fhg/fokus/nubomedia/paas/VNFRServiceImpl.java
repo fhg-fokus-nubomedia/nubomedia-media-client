@@ -25,6 +25,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,7 +76,13 @@ public class VNFRServiceImpl implements VNFRService{
 		creationHeader.add("Content-type","application/json");
 
 		HttpEntity<String> registerEntity = new HttpEntity<String>(body,creationHeader);
-		ResponseEntity response = restTemplate.exchange(URL, HttpMethod.POST,registerEntity,String.class);
+		ResponseEntity response = null;
+		try {
+			response = restTemplate.exchange(URL, HttpMethod.POST,registerEntity,String.class);
+		} catch(HttpClientErrorException e){
+			logger.warn("Internal error, could not allocate KMS "+e.getMessage());
+			throw new NotEnoughResourcesException("Internal error, could not allocate KMS "+e.getMessage());
+		}
 
 		logger.info("response from VNFM "+response);
 		HttpStatus status = response.getStatusCode();
