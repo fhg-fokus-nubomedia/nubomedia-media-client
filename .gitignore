@@ -1,5 +1,8 @@
 /target/
 
+.idea/
+nubomedia-media-client.iml
+
 *.classpath
 .project
 *.prefs

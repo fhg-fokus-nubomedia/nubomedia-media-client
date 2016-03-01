@@ -4,7 +4,7 @@
 
 	<groupId>de.fhg.fokus.nubomedia</groupId>
 	<artifactId>nubomedia-media-client</artifactId>
-	<version>1.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>nubomedia-media-client</name>
 	<description>The media client to use on together with Kurento client for depoying applications on the NUBOMEDIA cloud platform</description>
@@ -30,7 +30,7 @@
 		<java.version>1.7</java.version>
 		<maven.javadoc.skip>false</maven.javadoc.skip>
 		<!-- Main class -->
-		<start-class>de.fhg.fokus.nubomedia.App</start-class>	
+		<start-class>de.fhg.fokus.nubomedia.App</start-class>
 	</properties>
 	<scm>
 		<connection>scm:git:git@github.com:fhg-fokus-nubomedia/nubomedia-media-client.git</connection>
@@ -52,6 +52,19 @@
 				<configuration>
 					<generateBackupPoms>false</generateBackupPoms>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>perform</goal>
+						</goals>						
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>

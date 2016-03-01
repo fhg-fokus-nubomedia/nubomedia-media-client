@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 
+import de.fhg.fokus.nubomedia.kmc.KmsUrlProvider;
 import de.fhg.fokus.nubomedia.paas.ApplicationRecord;
 import de.fhg.fokus.nubomedia.paas.VNFRService;
 import de.fhg.fokus.nubomedia.paas.VNFRServiceImpl;
@@ -86,20 +87,13 @@ public class App implements CommandLineRunner {
     
     
     public void registerApplication(){
-    	VNFRService vnfrService = new VNFRServiceImpl();
     	
-    	
-    	ApplicationRecord record = vnfrService.registerApplication("myAwesomeApplication", 50);
-    	if(record == null){
-    		log.info("was unable to obtain a record"); 
-    		return;
-    	}
-    	log.info(record.toString());
-    	
-    	//Delete the application record
-    	if(record !=null)
+    	KmsUrlProvider provider = new KmsUrlProvider();
+		String appId = "abcirephmfpf-098823";
+		String url = provider.reserveKms(appId);
+		if(url !=null)
     	{
-    		vnfrService.unregisterApplication(record.getInternalAppId());
+    		provider.releaseKms(appId);
     	}
     }
 }

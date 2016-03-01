@@ -10,6 +10,7 @@
  *
  * @author Alice Cheambe <alice.cheambe[at]fokus.fraunhofer.de>
  *******************************************************************************/
+
 package de.fhg.fokus.nubomedia.paas;
 
 import java.util.Arrays;
@@ -33,7 +34,8 @@ import com.google.gson.GsonBuilder;
 
 
 /**
- *Implementation of the VNFRService interface
+ *
+ * Implementation of the VNFRService interface
  * 
  */
 @Service
@@ -52,10 +54,11 @@ public class VNFRServiceImpl implements VNFRService{
 	
 
 	/**
-	 * Registers a new App to the VNFR with a specific VNFR ID	 
+	 * Registers a new App to the VNFR with a specific VNFR ID
+	 * 	
 	 * @param externalAppId - application identifier
 	 * @param points - capacity
-	 */	
+	 */
 	public ApplicationRecord registerApplication(String externalAppId, int points) throws NotEnoughResourcesException
 	{
 		try 
@@ -115,7 +118,6 @@ public class VNFRServiceImpl implements VNFRService{
 		Void body = response.getBody();
 	}
 
-
 	/**
 	 * Returns the list of applications (virtual network function records) registered on the VNF
 	 * @return list of application
@@ -125,12 +127,11 @@ public class VNFRServiceImpl implements VNFRService{
 	   return Arrays.asList(list);		
 	}
 
-
 	/**
 	 * Returns the list of registered application to the given virtual record identifier
 	 * @param vnfrId - the virtual network function record identifier
 	 * @return list - of application records
-	 */
+	 */	
 	public List<ApplicationRecord> getListRegisteredApplications(String vnfrId) {
 		ApplicationRecord[] list = restTemplate.getForObject(serviceProfile.getServiceApiUrl(), ApplicationRecord[].class);
 		   return Arrays.asList(list);
@@ -140,7 +141,7 @@ public class VNFRServiceImpl implements VNFRService{
 	/**
 	 * Sends heart beat as keep alive mechanism to Virtual Network Function
 	 * @param internalAppId - the application identifier
-	 */
+	 */	
 	public void sendHeartBeat(String internalAppId) {
 		// PUT on /vnfr/<vnfr_id>/app/<app_id>/heartbeat
 		String webServiceUrl = serviceProfile.getServiceApiUrl()+"/"+internalAppId+"/heartbeat";
