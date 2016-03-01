@@ -12,6 +12,8 @@
  *******************************************************************************/
 package de.fhg.fokus.nubomedia.kmc;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,7 +37,7 @@ public class KmsUrlProvider implements KmsProvider {
 	private static final Logger logger = LoggerFactory.getLogger(KmsUrlProvider.class);
 
 	private VNFRService vnfrService;
-	private ApplicationRecord record; 
+	private Map<String, ApplicationRecord> record = new HashMap<>();
 	private TimerTask timerTask;
 	private Timer timer = new Timer(true);
 	private int timerDelay = 15000; //delays 30 secs after the application is registered before sending the first heartbeat
@@ -50,7 +52,7 @@ public class KmsUrlProvider implements KmsProvider {
 			logger.info("releasing KMS..."+applicationId);
 			if(record == null)
 				return;
-			vnfrService.unregisterApplication(record.getInternalAppId());
+			vnfrService.unregisterApplication(record.get(applicationId).getInternalAppId());
 			timerTask.cancel();
 		} catch (Exception e) {
 			throw new NotEnoughResourcesException("An error occured in releasing the KMS - "+e.getMessage());
@@ -62,19 +64,16 @@ public class KmsUrlProvider implements KmsProvider {
 	}
 
 	public String reserveKms(String applicationId, int loadPoints) throws NotEnoughResourcesException {
-		try {
-			record = vnfrService.registerApplication(applicationId, loadPoints);
-			if(record != null)
-			{
-				logger.info(record.toString());
-				timerTask = new HeartBeatTimerTask(vnfrService, record.getInternalAppId());
-				timer.schedule(timerTask, timerDelay, timerPeriod);
-				return "ws://"+record.getIP()+":8888/kurento";
-			}
-			return null;
-		} catch (NotEnoughResourcesException e) {
-			logger.info("An error occured in reserving the KMS - "+e.getMessage());
-		}	
-		return null;
+		ApplicationRecord tmpRecord = vnfrService.registerApplication(applicationId, loadPoints);
+		record.put(applicationId, vnfrService.registerApplication(applicationId, loadPoints));
+		if(record != null)
+		{
+			logger.info(record.toString());
+			timerTask = new HeartBeatTimerTask(vnfrService, tmpRecord.getInternalAppId());
+			timer.schedule(timerTask, timerDelay, timerPeriod);
+			return "ws://"+tmpRecord.getIP()+":8888/kurento";
+		}
+		else
+			throw new NotEnoughResourcesException("An error occured in reserving the KMS - ");
 	}
 }
