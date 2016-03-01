@@ -34,7 +34,7 @@ import com.google.gson.GsonBuilder;
 
 /**
  *Implementation of the VNFRService interface
- * 
+ *
  */
 @Service
 public class VNFRServiceImpl implements VNFRService{
@@ -49,70 +49,63 @@ public class VNFRServiceImpl implements VNFRService{
 		this.serviceProfile = VNFRServiceProfile.getInstance();
 		restTemplate = new RestTemplate();
 	}
-	
+
 
 	/**
 	 * Registers a new App to the VNFR with a specific VNFR ID	 
 	 * @param externalAppId - application identifier
 	 * @param points - capacity
-	 */	
+	 */
 	public ApplicationRecord registerApplication(String externalAppId, int points) throws NotEnoughResourcesException
 	{
-		try 
-		{   
-			if(serviceProfile == null)
-			{
-				logger.info("Service Profile not set. make sure the VNFR_ID, VNFM_IP and VNFM_PORT are available ");
-				return null;
-			}
-			String URL = serviceProfile.getServiceApiUrl();	
-			ApplicationRecordBody bodyObj = new ApplicationRecordBody(externalAppId, points);
-			Gson mapper = new GsonBuilder().create();
-			String body = mapper.toJson(bodyObj, ApplicationRecordBody.class);
-					
-			logger.info("registering new application: \nURL: "+URL+"\n + "+body);
-			HttpHeaders creationHeader = new HttpHeaders();
-	        creationHeader.add("Accept","application/json");
-	        creationHeader.add("Content-type","application/json");
-	        
-			HttpEntity<String> registerEntity = new HttpEntity<String>(body,creationHeader);
-	        ResponseEntity response = restTemplate.exchange(URL, HttpMethod.POST,registerEntity,String.class);
-	        
-	        logger.info("response from VNFM "+response);
-	        HttpStatus status = response.getStatusCode();
-	        if(status.equals(HttpStatus.CREATED)  || status.equals(HttpStatus.OK))
-	        {
-	        	logger.info("Deployment status: "+status + " response: " + response);
-		        ApplicationRecord  responseBody = mapper.fromJson((String) response.getBody(), ApplicationRecord.class);
-				
-				logger.info("returned object "+ responseBody.toString());
-				return responseBody;
-	        }
-	        else if(status.equals(HttpStatus.UNPROCESSABLE_ENTITY)){
-	        	
-	        	throw new NotEnoughResourcesException("Not enough resource "+ response.getBody());	        	
-	        }	        		
-		} catch(NotEnoughResourcesException e){
-			logger.error(e.getMessage());		
+
+		if(serviceProfile == null)
+		{
+			logger.info("Service Profile not set. make sure the VNFR_ID, VNFM_IP and VNFM_PORT are available ");
+			return null;
 		}
-		catch (RestClientException e) {
-			logger.error("Error registering application to VNFR - " + e.getMessage());			
+		String URL = serviceProfile.getServiceApiUrl();
+		ApplicationRecordBody bodyObj = new ApplicationRecordBody(externalAppId, points);
+		Gson mapper = new GsonBuilder().create();
+		String body = mapper.toJson(bodyObj, ApplicationRecordBody.class);
+
+		logger.info("registering new application: \nURL: "+URL+"\n + "+body);
+		HttpHeaders creationHeader = new HttpHeaders();
+		creationHeader.add("Accept","application/json");
+		creationHeader.add("Content-type","application/json");
+
+		HttpEntity<String> registerEntity = new HttpEntity<String>(body,creationHeader);
+		ResponseEntity response = restTemplate.exchange(URL, HttpMethod.POST,registerEntity,String.class);
+
+		logger.info("response from VNFM "+response);
+		HttpStatus status = response.getStatusCode();
+		if(status.equals(HttpStatus.CREATED)  || status.equals(HttpStatus.OK))
+		{
+			logger.info("Deployment status: "+status + " response: " + response);
+			ApplicationRecord  responseBody = mapper.fromJson((String) response.getBody(), ApplicationRecord.class);
+
+			logger.info("returned object "+ responseBody.toString());
+			return responseBody;
 		}
-		return null;
+		else if(status.equals(HttpStatus.UNPROCESSABLE_ENTITY))
+			throw new NotEnoughResourcesException("Not enough resource "+ response.getBody());
+		else
+			throw new NotEnoughResourcesException("Internal error, could not allocate KMS "+ response.getBody());
+
 	}
 
 	/**
 	 * Unregisters an App to the VNFR with the specific internal application identify
-	 * 
+	 *
 	 * @param internalAppId - identifier of the registered application on the VNFR
 	 */
 	public void unregisterApplication(String internalAppId){
 		String webServiceUrl = serviceProfile.getServiceApiUrl()+"/"+internalAppId;
 		logger.info("unregistering application "+ webServiceUrl);
-		
+
 		ResponseEntity<Void> response = restTemplate.exchange(webServiceUrl, HttpMethod.DELETE,
-                null, Void.class);
-		Void body = response.getBody();
+				null, Void.class);
+		response.getBody();
 	}
 
 	/**
@@ -121,7 +114,7 @@ public class VNFRServiceImpl implements VNFRService{
 	 */
 	public List<VirtualNetworkFunctionRecord> getListRegisteredVNFR() {
 		VirtualNetworkFunctionRecord[] list = restTemplate.getForObject(serviceProfile.getServiceBaseUrl(), VirtualNetworkFunctionRecord[].class);
-	   return Arrays.asList(list);		
+		return Arrays.asList(list);
 	}
 
 	/**
@@ -131,7 +124,7 @@ public class VNFRServiceImpl implements VNFRService{
 	 */
 	public List<ApplicationRecord> getListRegisteredApplications(String vnfrId) {
 		ApplicationRecord[] list = restTemplate.getForObject(serviceProfile.getServiceApiUrl(), ApplicationRecord[].class);
-		   return Arrays.asList(list);
+		return Arrays.asList(list);
 	}
 
 
@@ -143,10 +136,10 @@ public class VNFRServiceImpl implements VNFRService{
 		// PUT on /vnfr/<vnfr_id>/app/<app_id>/heartbeat
 		String webServiceUrl = serviceProfile.getServiceApiUrl()+"/"+internalAppId+"/heartbeat";
 		logger.info("sending heartbeat to EMM "+ webServiceUrl);
-		
+
 		ResponseEntity<Void> response = restTemplate.exchange(webServiceUrl, HttpMethod.PUT,
-                null, Void.class);
-		Void body = response.getBody();
+				null, Void.class);
+		response.getBody();
 		logger.info("response :"+ response);
 	}
 }
