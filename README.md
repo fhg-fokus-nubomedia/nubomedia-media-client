@@ -24,7 +24,7 @@ If you are using Maven, here is an example of including the jar file.
 <dependency>
 	<groupId>de.fhg.fokus.nubomedia</groupId>
 	<artifactId>nubomedia-media-client</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-2/version>
 </dependency>
 ```
 ### Instantiating Kurento Media Client
