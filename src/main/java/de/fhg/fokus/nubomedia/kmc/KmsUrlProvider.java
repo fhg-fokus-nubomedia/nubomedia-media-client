@@ -41,7 +41,7 @@ public class KmsUrlProvider implements KmsProvider {
 
 	private VNFRService vnfrService;
 	private Map<String, ApplicationRecord> record = new HashMap<>();
-	private TimerTask timerTask;
+	private Map<String, TimerTask> timerTask = new HashMap<>();
 	private Timer timer = new Timer(true);
 	private int timerDelay = 15000; //delays 30 secs after the application is registered before sending the first heartbeat
 	private int timerPeriod = 60000; //periodic every 60 secs minutes
@@ -57,7 +57,7 @@ public class KmsUrlProvider implements KmsProvider {
 				return;
 			vnfrService.unregisterApplication(record.get(applicationId).getInternalAppId());
 			record.remove(applicationId);
-			timerTask.cancel();
+			timerTask.get(applicationId).cancel();
 		} catch (Exception e) {
 			throw new NotEnoughResourcesException("An error occured in releasing the KMS - "+e.getMessage());
 		}
@@ -73,8 +73,9 @@ public class KmsUrlProvider implements KmsProvider {
 		if(tmpRecord != null)
 		{
 			logger.info(tmpRecord.toString());
-			timerTask = new HeartBeatTimerTask(vnfrService, tmpRecord.getInternalAppId());
-			timer.schedule(timerTask, timerDelay, timerPeriod);
+			TimerTask tmpTimerTask = new HeartBeatTimerTask(vnfrService, tmpRecord.getInternalAppId());
+			timerTask.put(applicationId, tmpTimerTask );
+			timer.schedule(tmpTimerTask, timerDelay, timerPeriod);
 			return "ws://"+tmpRecord.getIP()+":8888/kurento";
 		}
 		else
