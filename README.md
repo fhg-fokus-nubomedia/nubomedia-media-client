@@ -21,9 +21,9 @@ Simply include it on your project's pom.xml file as describe below, then run the
 <dependencies>
 ...
 <dependency>
-<!-- Kurento client dependency -->
-<groupId>org.kurento</groupId>
-	<artifactId>kurento-client</artifactId>
+	<groupId>de.fhg.fokus.nubomedia</groupId>
+	<artifactId>nubomedia-media-client</artifactId>
+	<version>6.5.0/version>
 </dependency>
 <dependency>
   <!-- Nubomedia client dependency -->
