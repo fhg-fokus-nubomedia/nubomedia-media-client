@@ -3,7 +3,7 @@
 
 	<groupId>de.fhg.fokus.nubomedia</groupId>
 	<artifactId>nubomedia-media-client</artifactId>
-	<version>6.5.0</version>
+	<version>6.5.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>nubomedia-media-client</name>
 	<description>The media client to use on together with Kurento client for depoying applications on the NUBOMEDIA cloud platform</description>
@@ -35,7 +35,7 @@
 		<connection>scm:git:git@github.com:fhg-fokus-nubomedia/nubomedia-media-client.git</connection>
 		<developerConnection>scm:git:git@github.com:fhg-fokus-nubomedia/nubomedia-media-client.git</developerConnection>
 		<url>git@github.com:fhg-fokus-nubomedia/nubomedia-media-client.git</url>
-	  <tag>nubomedia-media-client-6.5.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 	<distributionManagement>
 		<snapshotRepository>
